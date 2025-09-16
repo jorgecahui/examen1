@@ -1,0 +1,31 @@
+server:
+  port: 9090
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: ms-gateway-server
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        - id: ms-curso
+          uri: lb://ms-curso
+          predicates:
+            - Path=/cursos/**
+
+        - id: ms-matricula
+          uri: lb://ms-matricula
+          predicates:
+            - Path=/matriculas/**
