@@ -13,21 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-package com.example.msmatricula.controller;
-
-import com.example.msmatricula.entity.Matricula;
-import com.example.msmatricula.feign.CursoClient;
-import com.example.msmatricula.feign.CursoDTO;
-import com.example.msmatricula.service.MatriculaService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/matriculas")
 @RequiredArgsConstructor
