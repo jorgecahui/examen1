@@ -44,7 +44,7 @@ feign:
 management:
   endpoints:
     web:
-      base-path: /actuator   
+      base-path: /actuator
       exposure:
         include: health,info,metrics
   endpoint:
