@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class MatriculaController {
 
     private final MatriculaService matriculaService;
-    private final CursoIntegrationService cursoIntegrationService; // <- reemplazo de CursoClient
+    private final CursoIntegrationService cursoIntegrationService;
 
     @GetMapping
     public List<Matricula> listar() {
@@ -35,12 +35,10 @@ public class MatriculaController {
             return ResponseEntity.notFound().build();
         }
 
-        // Aquí usamos CircuitBreaker + Retry + Fallback
         List<CursoDTO> cursos = matricula.getCursoIds().stream()
-                .map(cursoIntegrationService::obtenerCurso) // <- cambio
+                .map(cursoIntegrationService::obtenerCurso)
                 .collect(Collectors.toList());
 
-        // Usamos LinkedHashMap para mantener orden
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("id", matricula.getId());
         response.put("nombreAlumno", matricula.getNombreAlumno());
