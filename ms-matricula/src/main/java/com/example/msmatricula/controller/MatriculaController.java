@@ -3,6 +3,7 @@ package com.example.msmatricula.controller;
 import com.example.msmatricula.entity.Matricula;
 import com.example.msmatricula.feign.CursoClient;
 import com.example.msmatricula.feign.CursoDTO;
+import com.example.msmatricula.service.CursoIntegrationService;
 import com.example.msmatricula.service.MatriculaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class MatriculaController {
 
     private final MatriculaService matriculaService;
-    private final CursoClient cursoClient;
+    private final CursoIntegrationService cursoIntegrationService; // <- reemplazo de CursoClient
 
     @GetMapping
     public List<Matricula> listar() {
@@ -34,10 +35,12 @@ public class MatriculaController {
             return ResponseEntity.notFound().build();
         }
 
+        // Aquí usamos CircuitBreaker + Retry + Fallback
         List<CursoDTO> cursos = matricula.getCursoIds().stream()
-                .map(cursoClient::obtenerCurso)
+                .map(cursoIntegrationService::obtenerCurso) // <- cambio
                 .collect(Collectors.toList());
 
+        // Usamos LinkedHashMap para mantener orden
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("id", matricula.getId());
         response.put("nombreAlumno", matricula.getNombreAlumno());
